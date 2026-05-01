@@ -1,16 +1,19 @@
-import type { EventMap } from '../types';
 import type {
+  EventDispatcherLike,
   EventHandler,
   EventInfo,
-  HandlerEntry,
+  EventMap,
   OffHandlerOptions,
   OnHandlerOptions,
-} from './types';
+} from '../types';
+import type { HandlerEntry } from './types';
 
 /**
  * イベントディスパッチャー
  */
-export default class EventDispatcher<M extends EventMap = EventMap> {
+export default class EventDispatcher<
+  M extends EventMap = EventMap,
+> implements EventDispatcherLike<M> {
   /**
    * イベントハンドラー
    */
@@ -129,14 +132,14 @@ export default class EventDispatcher<M extends EventMap = EventMap> {
     this._suppress = Math.max(0, this._suppress - 1);
   }
 
-  private _canEmit(): boolean {
-    return !this._suppress;
-  }
-
   /**
    * 全ハンドラーを削除しリソースを解放する
    */
   destructor(): void {
     this._handlers = {};
+  }
+
+  private _canEmit(): boolean {
+    return !this._suppress;
   }
 }

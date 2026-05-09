@@ -1,5 +1,5 @@
 /**
- * イベントマップの基本型
+ * イベントマップの基本型\
  * キーがイベント名、値がペイロードの型
  */
 export type EventMap = Record<string, Record<string, unknown>>;
@@ -41,20 +41,33 @@ export type OnHandlerOptions = {
 };
 
 /**
- * ハンドラー削除時のオプション
- * ハンドラーを指定して削除する場合はhandlerを、
+ * ハンドラー削除時のオプション\
+ * ハンドラーを指定して削除する場合はhandlerを、\
  * オーナーを指定して削除する場合はownerを指定する（両方の指定は不可）
  */
 export type OffHandlerOptions =
-  | { handler: EventHandler<any, any>; owner?: never }
-  | { owner: any; handler?: never };
+  | {
+      /**
+       * 削除対象のハンドラー
+       */
+      handler: EventHandler<any, any>;
+
+      owner?: never;
+    }
+  | {
+      /**
+       * 削除対象のハンドラーのオーナー
+       */
+      owner: any;
+      handler?: never;
+    };
 
 /**
  * EventDispatcherのインターフェイス
  */
 export interface EventDispatcherLike<M extends EventMap = EventMap> {
   /**
-   * イベントハンドラーを登録する
+   * イベントハンドラーを登録する\
    * 同一ハンドラーの重複登録は無視される
    */
   on<K extends keyof M>(
@@ -64,8 +77,8 @@ export interface EventDispatcherLike<M extends EventMap = EventMap> {
   ): void;
 
   /**
-   * イベントハンドラーを削除する
-   * @param type - イベント名。省略した場合は全イベントが対象になる
+   * イベントハンドラーを削除する\
+   * @param type - イベント名。省略した場合は全イベントが対象になる\
    * @param options - handler を指定するとそのハンドラーのみ削除、owner を指定するとそのオーナーのハンドラーをすべて削除
    */
   off<K extends keyof M>(type: K, options?: OffHandlerOptions): void;

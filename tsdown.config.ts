@@ -33,9 +33,9 @@ export default defineConfig({
             import: './index.mjs',
             require: './index.cjs',
           },
-          './EventDispatcher': {
-            import: './EventDispatcher/index.mjs',
-            require: './EventDispatcher/index.cjs',
+          './*': {
+            import: './*/index.mjs',
+            require: './*/index.cjs',
           },
           './types': {
             import: './types.mjs',
@@ -43,6 +43,7 @@ export default defineConfig({
           },
         },
       },
+      resolveWorkspaceDeps: true,
     }),
     copy({
       targets: [
